@@ -14,34 +14,45 @@ MONGO_URI = os.getenv('MONGO_URI')
 client = MongoClient(MONGO_URI)
 db = client["movie_tracker"]
 movies_collection = db["movies"]
+users_collection = db["users"]
 
-# User Authentication Routes
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-        db.users.insert_one({"username": username, "password": hashed_password})
-        flash('Registration successful! Please log in.')
-        return redirect(url_for('login'))
-    return render_template('register.html')
-
+@app.route('/home')
+def home():
+    return render_template('home.html')
+#login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        user = db.users.find_one({"username": username})
+        user = users_collection.find_one({"username": username})
 
-        if user and bcrypt.checkpw(password.encode('utf-8'), user['password']):
-            session['user_id'] = str(user['_id'])
+        if user and password:
             flash('Login successful!')
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('home'))
         else:
             flash('Invalid username or password')
             return redirect(url_for('login'))
     return render_template('login.html')
+
+#register
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password'].encode('utf-8')
+
+        # Check if user already exists
+        if users_collection.find_one({"username": username}):
+            flash("Username already exists. Please choose a different one.")
+        else:
+            users_collection.insert_one({
+                "username": username,
+                "password": password,
+            })
+            flash("Registration successful! Please log in.")
+            return redirect(url_for('login'))
+    return render_template('register.html')
 
 #add movie route - check to see if links correctly Jime 
 @app.route('/add_movie', methods=['GET', 'POST'])
