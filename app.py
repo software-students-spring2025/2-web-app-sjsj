@@ -51,7 +51,7 @@ def login():
 def register():
     if request.method == 'POST':
         username = request.form['username']
-        password = request.form['password'].encode('utf-8')
+        password = request.form['password']
 
         # Check if user already exists
         if users_collection.find_one({"username": username}):
@@ -76,7 +76,6 @@ def add_movie():
         release_year = request.form['release_year']
 
         movies_collection.insert_one({
-
             "title": title,
             "genre": genre,
             "release_year": release_year
