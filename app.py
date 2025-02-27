@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 import os
@@ -57,9 +57,6 @@ def register():
 #add movie route - check to see if links correctly Jime 
 @app.route('/add_movie', methods=['GET', 'POST'])
 def add_movie():
-   ## if 'user_id' not in session:
-       ## return redirect(url_for('login'))
-    
     if request.method == 'POST':
         title = request.form['title']
         genre = request.form['genre']
@@ -82,9 +79,6 @@ def add_movie():
 #edit movie route -- check to see if links correclty Jime
 @app.route('/edit_movie/<movie_id>', methods=['GET', 'POST'])
 def edit_movie(movie_id):
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
-    
     movie = movies_collection.find_one({"_id": ObjectId(movie_id)})
     
     if request.method == 'POST':
