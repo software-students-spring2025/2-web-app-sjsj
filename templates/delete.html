@@ -1,0 +1,32 @@
+<!-- delete html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Delete Movie</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Are you sure you want to delete "{{ movie['title'] }}"?</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('add') }}">Add</a></li>
+                <li><a href="{{ url_for('search') }}">Search</a></li>
+            </ul>
+        </nav>
+
+        <form action="{{ url_for('delete_movie', title=movie['title']) }}" method="POST">
+            <!-- CSRF Token (If Using Flask-WTF) -->
+            {% if csrf_token %}
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            {% endif %}
+            
+            <button type="submit" name="confirm" value="yes" class="confirm-btn">Yes</button>
+            <button type="submit" name="confirm" value="no" class="cancel-btn">No</button>
+        </form>
+    </div>
+</body>
+</html>
