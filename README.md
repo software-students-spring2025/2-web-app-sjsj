@@ -24,16 +24,20 @@ cd <2-web-app-sjsj>
 ## Step 2: Install pipenv (On your actual terminal)
 It is recommended to set a virtual environment with pipenv, which can be installed with the command:
 ``` pip install pipenv ```
+
 ``` pipenv shell ```
 
 ## Step 3: Set up the Project Environment 
 Navigate to your project directory (if not already there) and run:
 ``` pipenv shell ```
+
 ``` pipenv install flask ```
+
 ``` pipenv install pymongo ```
 
 ## Step 4: Run the application
 ``` python app.py ```
+
 This will output the local address where your Flask web application is running. The link can be copied and pasted to a web browser or those on Visual Studio Code can press the command key and click on the link.
 
 ## Task boards
