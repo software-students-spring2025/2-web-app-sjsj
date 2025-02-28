@@ -14,8 +14,12 @@ Our product will give users the ability to keep track of movies they’d like to
 
 ## Step 1: Clone the Repository
 To clone the repository to your local machine, open the terminal, navigate to the directory where you want to clone the repository, and run:
-''' git clone <https://github.com/software-students-spring2025/2-web-app-sjsj> '''
-''' cd <2-web-app-sjsj> '''
+''' 
+git clone <https://github.com/software-students-spring2025/2-web-app-sjsj> 
+'''
+''' 
+cd <2-web-app-sjsj> 
+'''
 
 ## Step 2: Install pipenv (On your actual terminal)
 It is recommended to set a virtual environment with pipenv, which can be installed with the command:
