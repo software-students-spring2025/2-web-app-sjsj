@@ -20,4 +20,13 @@
 
         <form action="{{ url_for('delete_movie', title=movie['title']) }}" method="POST">
             <!-- CSRF Token (If Using Flask-WTF) -->
-     
+            {% if csrf_token %}
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            {% endif %}
+            
+            <button type="submit" name="confirm" value="yes" class="confirm-btn">Yes</button>
+            <button type="submit" name="confirm" value="no" class="cancel-btn">No</button>
+        </form>
+    </div>
+</body>
+</html>
