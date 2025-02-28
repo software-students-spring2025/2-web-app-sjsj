@@ -26,8 +26,10 @@
         <div class="movie-actions">
             <h2><a href="{{ url_for('edit_movie', username=session['username'], title=movie.title) }}">Edit Movie</a></h2>
             <h2>Delete movie</h2>
-            <button id="deleteBtnYes">Yes</button>
-            <button id="deleteBtnNo">No</button>
+            <form id="deleteForm" method="POST" action="{{ url_for('delete_movie', username=session['username'], title=movie.title) }}">
+                <button type="submit" id="deleteBtnYes">Yes</button>
+            </form>
+            <!-- <button id="deleteBtnNo">No</button> -->
         </div>
     </div>
 </body>
