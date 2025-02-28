@@ -14,12 +14,12 @@
         <nav>
             <ul>
                 <li><a href="{{ url_for('home') }}">Home</a></li>
-                <li><a href="{{ url_for('add_movie') }}">Add</a></li>
-                <li><a href="">Search</a></li>
+                <li><a href="{{ url_for('add') }}">Add</a></li>
+                <li><a href="{{ url_for('search') }}">Search</a></li>
             </ul>
         </nav>
         
-        <form action="{{ url_for('add_movie') }}" method="POST">
+        <form action="{{ url_for('add') }}" method="POST">
             <div>
                 <label for="title">Title:</label>
                 <input type="text" id="title" name="title" placeholder="Enter movie title" required>

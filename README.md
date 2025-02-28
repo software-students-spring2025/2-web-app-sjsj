@@ -16,4 +16,5 @@ See instructions. Delete this line and place instructions to download, configure
 
 ## Task boards
 
-[SJSJ – Sprint 1](https://github.com/orgs/software-students-spring2025/projects/48/views/1)
+[SJSJ – Sprint 1](https://github.com/orgs/software-students-spring2025/projects/48/views/1)\
+[SJSJ – Sprint 2](https://github.com/orgs/software-students-spring2025/projects/48/views/1)

@@ -11,20 +11,40 @@
         <h1>Search Movies</h1>
         <nav>
             <ul>
-                <li><a href="home.html">Home</a></li>
-               <li><a href="add.html">Add</a></li>
-               <li><a href="search.html">Search</a></li>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('add') }}">Add</a></li>
+                <li><a href="{{ url_for('search') }}">Search</a></li>
             </ul>
         </nav>
-        
+    
         <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Enter movie title">
-            <button onclick="searchMovie()">Search</button>
+            <form method="POST" action="{{ url_for('search') }}">
+                <input type="text" name="query" placeholder="Enter movie title" required>
+                <button type="submit">Search</button>
+            </form>
         </div>
 
         <div id="resultsContainer" class="results-container">
-            <!-- Results will be displayed here -->
+            <main>
+                <ul>
+                    {% if matching_movies %}
+                    <ul>
+                        {% for movie in matching_movies %}
+                        <div class="movie-card">
+                            <a href="{{ url_for('movie_details', username=session['username'], title=movie.title) }}">
+                                <li>{{ movie.title }}</li>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No movies found matching your search criteria.</p>
+                {% endif %}
+                </ul>
+            </main>
         </div>
+        
     </div>
 </body>
 </html>
+

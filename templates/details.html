@@ -8,21 +8,27 @@
     <title>Movie Details</title>
 </head>
 <body>
-    <h1>Movie Details</h1>
-    <nav>
-        <ul>
-            <li><a href="home.html">Home</a></li>
-           <li><a href="add.html">Add</a></li>
-           <li><a href="search.html">Search</a></li>
-        </ul>
-    </nav>
-    <h2>Title: </h2>
-    <h2>Genre: </h2>
-    <h2>Year: </h2>
+    <div class="container">
+        <h1>Movie Details</h1>
+            <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('add') }}">Add</a></li>
+                <li><a href="{{ url_for('search') }}">Search</a></li>
+            </ul>
+        </nav>
+        <div class="movie-details">
+            <h2>Title: {{ movie.title }}</h2>
+            <h3>Genre: {{ movie.genre }}</h3>
+            <h3>Release Year: {{ movie.release_year }}</h3>
+        </div>
 
-    <h2>Delete movie</h2>
-    <button id="deleteBtnYes">Yes</button>
-    <button id="deleteBtnNo">No</button>
-    <h2><a href="edit.html">Edit movie</a></h2>
+        <div class="movie-actions">
+            <h2><a href="#">Edit Movie</a></h2>
+            <h2>Delete movie</h2>
+            <button id="deleteBtnYes">Yes</button>
+            <button id="deleteBtnNo">No</button>
+        </div>
+    </div>
 </body>
 </html>
