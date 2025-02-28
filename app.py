@@ -136,9 +136,69 @@ def movie_details(username, title):
         return redirect(url_for('home'))
 
 
-# edit movie route -- check to see if links correclty Jime
+#edit movie route -- check to see if links correctly Jime 
+@app.route('/edit_movie/<username>/<title>', methods=['GET', 'POST'])
+def edit_movie(username, title):
+    if 'username' not in session:
+        flash("Please log in first.")
+        return redirect(url_for('login'))
 
+    user_movies = movies_collection.find_one({"username": username})
 
+    if user_movies:
+        # Find the movie by its title in the user's movie list
+        movie = next((m for m in user_movies['movies'] if m['title'] == title), None)
+
+        if not movie:
+            flash("Movie not found!")
+            return redirect(url_for('home'))
+
+        if request.method == 'POST':
+            # Fetch updated movie details from the form
+            new_title = request.form.get("title")
+            genre = request.form.get("genre")
+            release_year = request.form.get("release_year")
+
+            # Update the movie in the database
+            movies_collection.update_one(
+                {"username": username, "movies.title": title},
+                {"$set": {
+                    "movies.$.title": new_title,
+                    "movies.$.genre": genre,
+                    "movies.$.release_year": release_year
+                }}
+            )
+
+            flash("Movie updated successfully!")
+            return redirect(url_for('home'))
+
+        # Pass the movie details to the template
+        return render_template('edit.html', movie=movie)
+    else:
+        flash("No movies found for this user!")
+        return redirect(url_for('home'))
+
+#delete movie 
+@app.route('/delete_movie/<username>/<title>', methods=['POST'])
+def delete_movie(username, title):
+    if 'username' not in session:
+        flash("Please log in first.")
+        return redirect(url_for('login'))
+
+    # Ensure the title is correctly identified
+    result = movies_collection.update_one(
+        {"username": username},
+        {"$pull": {"movies": {"title": title}}}
+    )
+
+    if result.modified_count > 0:
+        flash("Movie deleted successfully!")
+    else:
+        flash("Movie not found!")
+
+    return redirect(url_for('home'))
+
+#next
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
