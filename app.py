@@ -137,24 +137,7 @@ def movie_details(username, title):
 
 
 # edit movie route -- check to see if links correclty Jime
-@app.route('/edit_movie/<movie_id>', methods=['GET', 'POST'])
-def edit_movie(movie_id):
-    movie = movies_collection.find_one({"_id": ObjectId(movie_id)})
 
-    if request.method == 'POST':
-        title = request.form['title']
-        genre = request.form['genre']
-        release_year = request.form['release_year']
-
-        movies_collection.update_one(
-            {"_id": ObjectId(movie_id)},
-            {"$set": {"title": title, "genre": genre, "release_year": release_year}}
-        )
-
-        flash('Movie updated successfully!', 'success')
-        return redirect(url_for('movie_details', movie_id=movie_id))
-
-    return render_template('edit.html', movie=movie)
 
 
 @app.route('/search', methods=['GET', 'POST'])
