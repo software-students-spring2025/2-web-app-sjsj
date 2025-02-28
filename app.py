@@ -4,7 +4,6 @@ import certifi
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 import os
-# import bcrypt
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -36,8 +35,6 @@ def home():
 
     return render_template('home.html', movies=movies)
 
-# login
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -46,7 +43,6 @@ def login():
         password = request.form['password']
         user = users_collection.find_one({"username": username})
 
-        # Check if user exists and if the password matches
         if user and user['password'] == password:
             session['username'] = username
             flash('Login successful!')
@@ -56,8 +52,6 @@ def login():
             return redirect(url_for('login'))
     return render_template('login.html')
 
-# register
-
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -65,7 +59,6 @@ def register():
         username = request.form['username']
         password = request.form['password']
 
-        # Check if user already exists
         if users_collection.find_one({"username": username}):
             flash("Username already exists. Please choose a different one.")
         else:
@@ -84,7 +77,6 @@ def register():
     return render_template('register.html')
 
 
-# add movie route - check to see if links correctly Jime
 @app.route("/add", methods=["GET", "POST"])
 def add():
     username = session['username']
@@ -108,25 +100,19 @@ def add():
 
     return render_template("add.html")
 
-# movie details
-
 
 @app.route('/movie_details/<username>/<title>', methods=['GET'])
 def movie_details(username, title):
     if 'username' not in session:
-        return redirect(url_for('login'))  # Ensure the user is logged in
+        return redirect(url_for('login'))
 
-    # Find the user's movie list by username
     user_movies = movies_collection.find_one({"username": username})
 
-    # If the user exists and has movies
     if user_movies and 'movies' in user_movies:
-        # Find the movie by its title in the movies array
         movie = next(
             (m for m in user_movies['movies'] if m['title'] == title), None)
 
         if movie:
-            # Movie found, pass details to the template
             return render_template('details.html', movie=movie)
         else:
             flash("Movie not found!")
@@ -136,7 +122,6 @@ def movie_details(username, title):
         return redirect(url_for('home'))
 
 
-#edit movie route -- check to see if links correctly Jime 
 @app.route('/edit_movie/<username>/<title>', methods=['GET', 'POST'])
 def edit_movie(username, title):
     if 'username' not in session:
@@ -146,20 +131,18 @@ def edit_movie(username, title):
     user_movies = movies_collection.find_one({"username": username})
 
     if user_movies:
-        # Find the movie by its title in the user's movie list
-        movie = next((m for m in user_movies['movies'] if m['title'] == title), None)
+        movie = next(
+            (m for m in user_movies['movies'] if m['title'] == title), None)
 
         if not movie:
             flash("Movie not found!")
             return redirect(url_for('home'))
 
         if request.method == 'POST':
-            # Fetch updated movie details from the form
             new_title = request.form.get("title")
             genre = request.form.get("genre")
             release_year = request.form.get("release_year")
 
-            # Update the movie in the database
             movies_collection.update_one(
                 {"username": username, "movies.title": title},
                 {"$set": {
@@ -172,20 +155,18 @@ def edit_movie(username, title):
             flash("Movie updated successfully!")
             return redirect(url_for('home'))
 
-        # Pass the movie details to the template
         return render_template('edit.html', movie=movie)
     else:
         flash("No movies found for this user!")
         return redirect(url_for('home'))
 
-#delete movie 
+
 @app.route('/delete_movie/<username>/<title>', methods=['POST'])
 def delete_movie(username, title):
     if 'username' not in session:
         flash("Please log in first.")
         return redirect(url_for('login'))
 
-    # Ensure the title is correctly identified
     result = movies_collection.update_one(
         {"username": username},
         {"$pull": {"movies": {"title": title}}}
@@ -198,7 +179,6 @@ def delete_movie(username, title):
 
     return redirect(url_for('home'))
 
-#next
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
