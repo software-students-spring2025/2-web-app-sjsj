@@ -27,7 +27,6 @@ def index():
 @app.route('/home')
 def home():
     if 'username' not in session:
-        flash("Please log in first.")
         return redirect(url_for('login'))
     username = session['username']
     user = movies_collection.find_one({"username": username})
@@ -45,10 +44,8 @@ def login():
 
         if user and user['password'] == password:
             session['username'] = username
-            flash('Login successful!')
             return redirect(url_for('home'))
         else:
-            flash('Invalid username or password')
             return redirect(url_for('login'))
     return render_template('login.html')
 
@@ -72,7 +69,6 @@ def register():
                 "movies": []
             })
 
-            flash("Registration successful! Please log in.")
             return redirect(url_for('login'))
     return render_template('register.html')
 
