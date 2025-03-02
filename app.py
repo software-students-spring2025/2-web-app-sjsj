@@ -18,6 +18,9 @@ db = client["movie_tracker"]
 movies_collection = db["movies"]
 users_collection = db["users"]
 
+@app.before_request
+def clear_stale_flash_messages():
+    session.pop('_flashes', None)
 
 @app.route('/')
 def index():
